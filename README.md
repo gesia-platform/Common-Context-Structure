@@ -11,6 +11,37 @@ Identity ──definesGoal──▶ Goal ──requiresTask──▶ Task ──
 
 ---
 
+## Conceptual Foundation — the Knowledge–Action Chain (KAC)
+
+This repository is the **concrete implementation** of the concepts defined in
+**[The Knowledge–Action Chain (KAC)](https://github.com/sopia19910/Knowledge-Action-Chain)** — an AX execution
+ontology along which validated knowledge is derived into a Skill, compiled into an executable Runtime, and
+verified through action, outcome, review, and feedback:
+
+```
+KAC = ⟨ KC_ext, SDC, R, A, P, Ω, V, F, DC_D(t+1) ⟩
+```
+
+In KAC terms, **CCS (Common Context Structure) is the common operating grammar every domain context must
+follow** — the root precondition of the whole chain (`DC_D = Instantiate(CCS, D)`). This folder structure is
+that grammar made physical. Each KAC element maps onto a concrete part of this structure:
+
+| KAC concept | Realized here as |
+|---|---|
+| **SDC** — Skill Derivation Chain (`Identity → Goal → Task → Knowledge → Method → Skill`) | The five chain folders `_identity/ _goal/ _task/ _knowledge/ _method/` terminating in `_skill/` — one file per stage, linked both ways |
+| **Skill** — a derived capability requirement, not yet execution | `_skill/<name>_skill/SKILL.md` — the canonical, chain-grounded skill definition |
+| **SkillRuntime** — the execution contract that makes a Skill invocable | The deployed callable package produced through the six `_deploy/` stages and landed in the runtime skills registry (entry `SKILL.md` + `_members/`, self-contained, zero dangling links) |
+| **ValidKAC** — segment-by-segment validity gates | `_deploy/_verification/` three-gate AND verdict (masked-byte-identity / package-resolution / registry-callability → PROVEN, land only on PROVEN) — the deployment-side realization of "each segment must be verified" |
+| **Trace / Record** — execution must leave standing records | `_entity/` (the full authoring audit trail of every composite) + `_deploy/_record/` (vault-independent deployment records) |
+| **KC_ext → SDC entry** — validated knowledge enters the chain | The `_input` document corpus consumed by the identity pipeline, which extracts identity candidates and derives their chains |
+| **ActionEvent / OutputObject / OutcomeObject / Review / Feedback / Context Update** | Run-time objects: they occur when deployed skills execute against a **domain context** (`DC_D`), landing under that domain's own runRoot — never inside this canonical structure |
+
+> *A knowledge chain is a path of knowledge; a knowledge–action chain is the path along which knowledge is
+> verified through action.* This structure holds the knowledge-side of that path in verifiable, file-linked
+> form — so that what executes downstream (Runtime, Action, Outcome) always traces back to why it exists.
+
+---
+
 ## Folder Structure
 
 ```
