@@ -47,6 +47,11 @@ that grammar made physical. Each KAC element maps onto a concrete part of this s
 ```
 Common Context Structure\
 │
+│  ◆ Chain entry (what the structure consumes to begin)
+├── _input\
+│   └── _document\    Supplied readable documents — the corpus        <name>.md
+│                     the identity pipeline consumes.
+│
 │  ◆ Derivation chain (one file per concept in each folder)
 ├── _identity\        Concept definitions — the root of everything.   <UPPERCASE_CONCEPT>.md
 ├── _goal\            Chain stage 1: goal.                            <concept>_goal.md
@@ -84,7 +89,17 @@ Common Context Structure\
 
 ## Role of Each Folder
 
-### 1. Derivation chain — `_identity` → `_goal` → `_task` → `_knowledge` → `_method`
+### 1. Chain entry — `_input/`
+
+What the structure **consumes to begin** — the counterpart to what it produces. An input is named at the boundary, before any internal step: it is what the chain presupposes rather than derives.
+
+| Folder | Role | File contents |
+|---|---|---|
+| `_input/_document/` | The supplied readable-document corpus. The identity pipeline reads it to extract identity candidates, which then enter the derivation chain at `_identity/` | Authored prose meant to be read by a person — distinct from a data file, a runtime record, or executable |
+
+Nothing here is derived by this structure; everything here is handed in from outside it. The folder stands even while empty — the concept is declared (`_identity/INPUT.md`, `_identity/DOCUMENT.md`), so the seat exists before anything occupies it.
+
+### 2. Derivation chain — `_identity` → `_goal` → `_task` → `_knowledge` → `_method`
 
 | Folder | Role | File contents | Chain links |
 |---|---|---|---|
@@ -94,18 +109,18 @@ Common Context Structure\
 | `_knowledge/` | The judgment criteria the task presupposes | The validity-criteria list — what counts as PASS/FAIL | `← requiresKnowledge` / `→ appliedThrough` |
 | `_method/` | The procedure that applies the knowledge | Numbered procedure steps (including STOP conditions) | `← appliedThrough` / `→ developsSkill` |
 
-### 2. Canonical skills — `_skill/`
+### 3. Canonical skills — `_skill/`
 
 | Kind | Location | Contents |
 |---|---|---|
 | Canonical skill | `_skill/<name>_skill/SKILL.md` (folder name == frontmatter `name:`) | An **atomic** skill states its own Procedure; a **composite** skill states its member/edge roster and the sealed interface (INTERFACE / HIDDEN WORKFLOW) |
 | Edge callers | `_skill/<composite>_skill/edges/<edge>_invocation_skill/SKILL.md` | Own the calling behavior between composite members (atomic members stay unchanged): producer→consumer order · finalize-then-read guarantee · value-level bindings · PASS-only gates |
 
-### 3. Composite authoring records — `_entity/`
+### 4. Composite authoring records — `_entity/`
 
 The stage-by-stage outputs of the skill-bundling route **SUITE→EDGE→SEQUENCE→MODE→SYNC/ASYNC→INVOCATION→AGENT→WORKFLOW→COMPOSITE**, kept in per-type subfolders. Each authored composite leaves one `<name>_<type>.md` file in each subfolder — its complete audit trail. Every entity file carries the `## Links` contract (identity / producedBy / usesSkill / reads / writes / nextSkill / nextInput).
 
-### 4. Deployment staging — `_deploy/`
+### 5. Deployment staging — `_deploy/`
 
 The six stages that export a canonical skill to the runtime registry. **Landing (stage 5) happens only when verification (stage 4) reads PROVEN.**
 
